@@ -17,5 +17,6 @@ public class Main {
         distributor.distribute(Message.builder().text("Hello").sendingType(1).build());
         distributor.distribute(Message.builder().text("Hello").sendingType(2).build());
         distributor.distribute(Message.builder().text("Hello").sendingType(3).build());
+        context.close();
     }
 }

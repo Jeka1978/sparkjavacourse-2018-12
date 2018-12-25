@@ -5,6 +5,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -36,4 +37,21 @@ public class Distributor {
         messageSender.send(message);
 
     }
+
+    @PreDestroy
+    public void killAll(){
+        System.out.println("you are teminated...");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
