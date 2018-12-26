@@ -2,6 +2,7 @@ package lombok_examples;
 
 import lombok.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -15,6 +16,11 @@ import java.util.Objects;
 @ToString
 @Builder
 public class Person {
+
+
+
+
+
     @Singular("oneFish")
     private Map<String,Integer> fish;
     private String name;
