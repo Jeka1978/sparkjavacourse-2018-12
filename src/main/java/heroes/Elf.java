@@ -39,7 +39,6 @@ public class Elf implements Character {
         } else {
             currentWeapon = dataFactory.getRandomWeapon(this.weapons.get(SHORT_DISTANCE));
         }
-        distance--;
 
     }
 }
