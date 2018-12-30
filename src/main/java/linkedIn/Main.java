@@ -2,10 +2,9 @@ package linkedIn;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.DataFrame;
+import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
-import org.apache.spark.sql.types.DataType;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 
@@ -28,14 +27,14 @@ public class Main {
         JavaSparkContext sc = new JavaSparkContext(conf);
         SQLContext sqlContext = new SQLContext(sc);
         sqlContext.udf().register(SeniorityBySalary.class.getName(), new SeniorityBySalary(), DataTypes.StringType);
-        DataFrame dataFrame = sqlContext.read().json("data/linkedIn/*.json");
+        Dataset<Row> dataFrame = sqlContext.read().json("data/linkedIn/*.json");
         dataFrame.show();
         dataFrame.printSchema();
         Arrays.stream(dataFrame.schema().fields()).forEach(Main::printField);
-        DataFrame withSalaryDF = dataFrame.withColumn(SALARY, col(AGE).multiply(10).multiply(size(col(KEYWORDS))));
+        Dataset<Row> withSalaryDF = dataFrame.withColumn(SALARY, col(AGE).multiply(10).multiply(size(col(KEYWORDS))));
         withSalaryDF.withColumn("Seniority",callUDF(SeniorityBySalary.class.getName(),col(SALARY)))
                 .show();
-        DataFrame keyWordDF = withSalaryDF.withColumn(KEYWORD, explode(col(KEYWORDS))).select(KEYWORD);
+        Dataset<Row> keyWordDF = withSalaryDF.withColumn(KEYWORD, explode(col(KEYWORDS))).select(KEYWORD);
         Row row = keyWordDF.groupBy(KEYWORD).agg(count(col(KEYWORD)).as(AMOUNT))
                 .orderBy(col(AMOUNT).desc()).first();
         String mostPopular = row.getAs(KEYWORD);
