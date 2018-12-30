@@ -19,7 +19,7 @@ public class ListUtilTest {
         List<String> strings = asList("java", "JAVA", "JaVa", "scala", "python");
 
 
-        int duplicates = ListUtil.countDuplicates("java", strings, String::equalsIgnoreCase);
+        int duplicates = ListUtil.countDuplicates("java", strings,String::equalsIgnoreCase);
         Assert.assertEquals(3,duplicates);
 
     }
